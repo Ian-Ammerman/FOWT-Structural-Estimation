@@ -1,5 +1,5 @@
 # SHARK
-Structural Health Assessment and Real-time Kinematics observer (SHARK) for floating wind turbine systems.
+**S**tructural **H**ealth **A**ssessment and **R**eal-time **K**inematics observer (SHARK) for floating wind turbine systems.
 
 Underlying dynamics model can be found here: https://www.overleaf.com/read/vwhkfsmnwypk#2b01ba
 
