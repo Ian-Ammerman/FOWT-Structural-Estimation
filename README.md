@@ -1,5 +1,6 @@
 # SHARK
-**S**tructural **H**ealth **A**ssessment and **R**eal-time **K**inematics observer (SHARK) for floating wind turbine systems.
+<strong><span style="font-size: 1.2em;">S</span>tructural <span style="font-size: 1.2em;">H</span>ealth <span style="font-size: 1.2em;">A</span>ssessment and <span style="font-size: 1.2em;">R</span>eal-time <span style="font-size: 1.2em;">K</span>inematics</strong>
+ observer (SHARK) for floating wind turbine systems.
 
 Underlying dynamics model can be found here: https://www.overleaf.com/read/vwhkfsmnwypk#2b01ba
 
