@@ -1,6 +1,2 @@
 # SHARK
-<u>**S**tructural **H**ealth **A**ssessment and **R**eal-time **K**inematics</u> observer (SHARK) for floating wind turbine systems.
-
-Underlying dynamics model can be found here: https://www.overleaf.com/read/vwhkfsmnwypk#2b01ba
-
-SHARK intends to use an extended Kalman filter (EKF) or square-root Kalman filter (SRKF) to provide real-time state estimates for unmeasurable floating wind turbine states. These states can be used for full-state feedback control or in conjuction with AI tools to further predict system responses, condition, and structural loads.
+<u>**S**tructural **H**ealth **A**ssessment and **R**eal-time **K**inematics</u> observer (SHARK) is a real-time state estimation platform for fixed-bottom and floating wind turbines. Using a [semi-linear dynamics model](https://www.overleaf.com/read/vwhkfsmnwypk#2b01ba), SHARK computes a real-time state estimate using either an Extended Kalman filter or Square-Root Unscented Kalman filter (CITE).
