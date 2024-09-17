@@ -16,30 +16,6 @@ load('C:\Umaine Google Sync\Masters Working Folder\1 - OpenFAST\Simulations\5MW_
 % Unwrap rotor azimuth angle
 rotAz = unwrap(sim_results.Azimuth);
 
-%% ----- Get Rotor Loads ----- %%
-bLoad = struct();
-[lift, drag, alpha] = deal(zeros(length(sim_results.Time),3,9));
-radius = [0, 4.1, 10.25, 18.45, 26.65, 34.85, 43.05, 54.66, 61.49];
-ridx = [1, 3, 5, 7, 9, 11, 13, 16, 19];
-
-for i = 1:3
-    for j = 1:9
-        alpha(:,i,j) = sim_results.(sprintf('B%iN%iAlpha', i, j));
-        drag(:,i,j) = sim_results.(sprintf('B%iN%iFd', i, j));
-        lift(:,i,j) = sim_results.(sprintf('B%iN%iFl', i, j));
-    
-        % Row = time, column = blade, page = element
-        flap(:,i,j) = lift(:,i,j) .* cosd(alpha(:,i,j)) + drag(:,i,j) .* sind(alpha(:,i,j)); 
-    end
-end
-
-for i = 1:size(flap,1)
-    for j = 1:3
-        % Row = time, column = blade
-        flapNet(i,j) = trapz(radius, squeeze(flap(i,j,:))); 
-    end
-end
-
 %% ----- Run Standard Simulation ----- %%
 % Initial conditions
 x0 = zeros(8,1);
