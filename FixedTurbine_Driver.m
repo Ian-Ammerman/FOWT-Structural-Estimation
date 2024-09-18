@@ -5,7 +5,7 @@ clear all; close all; clc;
 % (distributed mass, stiffness, etc.). Using global variables to easily
 % pass through to RHS function. This could also be done through the F
 % structure as well.
-global btable ttable sim_results
+% global btable ttable sim_results
 
 %% ----- Load in Tower & Blade Information ----- %%
 % Blade & tower structural properties
@@ -136,32 +136,6 @@ ylabel('Acceleration [m/s^2]')
 title('Tower Fore-Aft Acceleration')
 xlim([t1,t2])
 legend
-
-% figure
-% gca; hold on; box on;
-% yyaxis left
-% plot(t, y1store(2,:), 'DisplayName', 'Linear')
-% yyaxis right
-% plot(sim_results.Time, sim_results.RootMyb1*10^3, 'DisplayName', 'FAST')
-% xlabel('Time [s]')
-% ylabel('Bending Moment [N-m]')
-% title('Blade 1 Flapwise Root Bending Moment')
-% xlim([min(t),max(t)])
-% legend
-
-
-% plot(t, xstore(3,:), 'DisplayName', 'Blade 2')
-% plot(t, xstore(4,:), 'DisplayName', 'Blade 3')
-
-
-
-
-
-
-
-
-
-
 
 %% ---------- HELPER FUNCTIONS ---------- %%
 function u = powerLaw(uref,zref,z,alpha)
