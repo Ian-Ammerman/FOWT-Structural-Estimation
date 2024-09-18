@@ -35,6 +35,9 @@ To generate OpenFAST results for comparison, do the following:
 To run the fixed wind turbine case, simply run the "FixedTurbine_Driver.m" file. Within this driver file you can adjust the simulation time by adjusting the time vector max value. Note that dt **must** match the OpenFAST output dt.
 
 ## Adjusting the Observer
+To change the measurements used by the observer:
 
+1. In the driver script, change the definition of the "kf_measurements" variable.
+2. In "FixedTrinityMeasurement" or corresponding measurement function, add code to compute desired values. Note that for large value (such as bending moments) it is typically necessary to scale the results to small values (0-1).
 
 
