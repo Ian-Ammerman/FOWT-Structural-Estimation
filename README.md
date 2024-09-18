@@ -29,3 +29,12 @@ To generate OpenFAST results for comparison, do the following:
 4. Adjust the OpenFAST files in the corresponding model folder to the desired simulation. Minimum outputs required for any simulation are TTDspFA, RootMyb1-3, BldPitch1-3, Wind1VelX, RotSpeed, Azimuth.
 5. Models build in other versions of OpenFAST are supported. Simply adjust the "version" and "bin_name" variables and place the compiled OpenFAST executables in the corresponding locations.
 6. Run the OpenFAST driver. Select "yeah, sure" to create the new directory, or "OMG, NO" if there is an error in the output folder name.
+
+# Fixed (Land-Based) Turbine Simulation
+
+To run the fixed wind turbine case, simply run the "FixedTurbine_Driver.m" file. Within this driver file you can adjust the simulation time by adjusting the time vector max value. Note that dt **must** match the OpenFAST output dt.
+
+## Adjusting the Observer
+
+
+
