@@ -1,4 +1,4 @@
-function forces = RT_BEM_Ning_v2(wind_vector,dqb,RPM,blade_pitch)
+function forces = RT_BEM_Ning_v2(wind_vector,RPM,blade_pitch)
 
 persistent blade CL_vals CD_vals btable Alpha_vals R RH B rho r beta dr c at Fmode1 ne sp init_flag
 
@@ -69,7 +69,7 @@ for j = 1:3
     for i = ne:-1:1   
         
         %% ----- Estimate Inflow Velocities ----- %%
-        Vx = Uinf(i) - dqb(j)*Fmode1(i);
+        Vx = Uinf(i);
         Vy = omega*r(i);
 
         %% ----- Get Force Coefficients from Sectional Theory ----- %%

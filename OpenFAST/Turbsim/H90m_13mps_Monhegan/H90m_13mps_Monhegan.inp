@@ -16,9 +16,9 @@ False         WrACT           - Output coherent turbulence time steps in AeroDyn
           1   ScaleIEC        - Scale IEC turbulence models to exact target standard deviation? [0=no additional scaling; 1=use hub scale uniformly; 2=use individual scales]
 
 --------Turbine/Model Specifications-----------------------
-         50   NumGrid_Z       - Vertical grid-point matrix dimension
-         50   NumGrid_Y       - Horizontal grid-point matrix dimension
-     0.0125   TimeStep        - Time step [seconds]
+         60   NumGrid_Z       - Vertical grid-point matrix dimension
+         60   NumGrid_Y       - Horizontal grid-point matrix dimension
+      0.01   TimeStep        - Time step [seconds]
        1000   AnalysisTime    - Length of analysis time series [seconds] (program will add time if necessary: AnalysisTime = MAX(AnalysisTime, UsableTime+GridWidth/MeanHHWS) )
 "ALL"         UsableTime      - Usable length of output time series [seconds] (program will add GridWidth/MeanHHWS seconds unless UsableTime is "ALL")
          90   HubHt           - Hub height [m] (should be > 0.5*GridHeight)

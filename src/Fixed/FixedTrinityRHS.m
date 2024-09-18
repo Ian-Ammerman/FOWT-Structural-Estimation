@@ -1,6 +1,12 @@
 function xdot = FixedTrinityRHS(x, F)
 
-global btable ttable
+persistent btable ttable init_flag
+
+if isempty(init_flag)
+    [btable,ttable] = load5MWDistributed;
+
+    init_flag = 1;
+end
 
 pos = x(1:length(x)/2);
 vel = x(1+length(x)/2:end);
@@ -15,10 +21,6 @@ C = FixedDampingMatrix(K);
 % State accelerations
 a = M \ (F.forces - C*vel - K*pos);
 
-% Jerk (constant acceleration)
-j = 0;
-
 % Compile xdot
-% xdot = [vel;a;j];
 xdot = [vel;a];
 
