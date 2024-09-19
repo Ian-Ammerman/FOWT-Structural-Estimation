@@ -61,6 +61,6 @@ kpt = sum(omega^2*kpt_con*cos(azimuth));
 
 %% ----- Form Stiffness Matrix ----- %%
 K = diag([kpp, ktt, kb(1), kb(2), kb(3), kdt]);
-K(1,2) = kpt;
-K(2,1) = kpt;
+% K(1,2) = kpt;
+% K(2,1) = kpt;
 end

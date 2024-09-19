@@ -3,6 +3,9 @@ function F = RT_Hydro(dt, x, xdot)
 persistent init_flag Kt Ainf vel_store
 
 if isempty(init_flag)
+
+    dt = 0.01;
+
     %% ----- Prepare for Convolution Calculation ----- %%
     % Radiation memory effect
     load('C:\Umaine Google Sync\Masters Working Folder\Multibody FOWT Model\FAST_Model\HydroData\Ainf.mat');
@@ -34,7 +37,7 @@ if isempty(init_flag)
     end
     
     % Interpolate to new time vector
-    newtime = [0:0.0125:max(time_vector)];
+    newtime = [0:dt:max(time_vector)];
     Ktnew = zeros(size(Kt,1),size(Kt,2),length(newtime));
     for i = 1:size(Kt,1)
         for j = 1:size(Kt,2)

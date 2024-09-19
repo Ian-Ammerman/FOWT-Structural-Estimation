@@ -40,11 +40,11 @@ cdt = -(P0/Q0^2);
 % Form damping matrix
 C = diag([cp, ct, cb1, cb2, cb3, cdt]);
 
-C = [    cp, ctplus,   0,   0,    0,   0;
-     ctplus,     ct,   0,   0,    0,   0;
-          0,      0, cb1,   0,    0,   0;
-          0,      0,   0, cb2,    0,   0;
-          0,      0,   0,   0,  cb3,   0;
-          0,      0,   0,   0,    0, cdt];
+% C = [    cp, ctplus,   0,   0,    0,   0;
+%      ctplus,     ct,   0,   0,    0,   0;
+%           0,      0, cb1,   0,    0,   0;
+%           0,      0,   0, cb2,    0,   0;
+%           0,      0,   0,   0,  cb3,   0;
+%           0,      0,   0,   0,    0, cdt];
 
 end
