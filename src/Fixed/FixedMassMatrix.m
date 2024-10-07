@@ -1,7 +1,9 @@
 function M = FixedMassMatrix(btable, ttable)
 
 %% ----- Flapwise Only ----- %%
-persistent mtb mtt mbb mNH init_flag
+persistent mtb mtt mbb mNH IDT Irotor IgenLSS init_flag
+
+
 
 if isempty(init_flag)
 
@@ -17,11 +19,37 @@ if isempty(init_flag)
     % Tower-blade mass coupling terms
     mtb = trapz(btable.Rb, btable.BMassDen .* btable.Fmode1);
 
+    % Rotor and drivetrain
+    N = 97;
+    Irotor = 35447886 + 115926;
+    Igen = 534.116;
+    IgenLSS = Igen * N^2;
+    IDT = Irotor + IgenLSS;
+
     init_flag = 1;
 end
 
 % Form mass matrix
+% M = [mtt, mtb, mtb, mtb,                0;
+%      mtb, mbb,   0,   0,                0;
+%      mtb,   0, mbb,   0,                0;
+%      mtb,   0,   0, mbb,                0;
+%        0,   0,   0,   0, Irotor + IgenLSS];
+
 M = [mtt, mtb, mtb, mtb;
      mtb, mbb,   0,   0;
      mtb,   0, mbb,   0;
      mtb,   0,   0, mbb];
+
+
+
+
+
+
+
+
+
+
+
+
+

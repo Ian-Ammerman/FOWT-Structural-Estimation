@@ -1,4 +1,4 @@
-function forces = RT_BEM_Ning_v2(wind_vector,RPM,blade_pitch)
+function forces = RT_BEM_Ning_v2(wind_vector,dqb,RPM,blade_pitch)
 
 persistent blade CL_vals CD_vals btable Alpha_vals R RH B rho r beta dr c at Fmode1 ne sp init_flag
 
@@ -69,7 +69,8 @@ for j = 1:3
     for i = ne:-1:1   
         
         %% ----- Estimate Inflow Velocities ----- %%
-        Vx = Uinf(i);
+        Vx = Uinf(i) - dqb(j)*Fmode1(i);
+        % Vx = Uinf(i);
         Vy = omega*r(i);
 
         %% ----- Get Force Coefficients from Sectional Theory ----- %%
@@ -158,8 +159,9 @@ for j = 1:3
         CD = interp1(Alpha_vals,CD_vals(:,at(i)),alpha);
 
         % Recompute inflow velocities
-        Vx = Uinf(i)*(1-a);
-        Vy = RPM*(2*pi/60)*r(i)*(1+ap);
+        Vx = (Uinf(i) - dqb(j)*Fmode1(i))*(1-a);
+        % Vx = Uinf(i) * (1-a);
+        Vy = omega*r(i)*(1+ap);
 
         %Compute Ustar
         Ustar = sqrt(Vx^2 + Vy^2); 
@@ -168,22 +170,18 @@ for j = 1:3
         % Lift force
         dL = 0.5*rho*(Ustar^2)*CL*c(i)*dr(i);
         Ltotal = Ltotal + dL;
-        dLr(i) = dL*r(i);
 
         % Drag force
         dD = 0.5*rho*(Ustar^2)*CD*c(i)*dr(i);
         Dtotal = Dtotal + dD;
-        dDr(i) = dD*r(i);
 
         % Rotor thrust
         dT = dL*cos(phi) + dD*sin(phi);
         Ttotal = Ttotal+dT; 
-        dTr(i) = dT*r(i);
 
         % Rotor torque
-        dQ = (dL*sin(phi)-dD*cos(phi))*r(i);
+        dQ = (dL*sin(phi)-dD*cos(phi))*(r(i)+RH);
         Qtotal = Qtotal+dQ;
-        dQr(i) = dQ*r(i);
 
         % Flapwise force
         dFlap = (dL*cosd(alpha) + dD*sind(alpha))*Fmode1(i);
@@ -192,18 +190,16 @@ for j = 1:3
     end
     thrust(j,1) = Ttotal;
     torque(j,1) = Qtotal;
-    rt(j,1) = sum(dQr)/Qtotal;
-    rn(j,1) = sum(dTr)/Ttotal;
     flap(j,1) = FlapTotal;
     edge(j,1) = Dtotal;
-    rf(j,1) = sum(dLr)/Ltotal;
-    re(j,1) = sum(dDr)/Dtotal;
 end
 
 check_flag = 0;
 
 if check_flag == 1
     forces = thrust;
+elseif check_flag == 3
+    forces = torque;
 elseif check_flag == 0
     forces.Thrust = thrust;
     % forces.Torque = torque;

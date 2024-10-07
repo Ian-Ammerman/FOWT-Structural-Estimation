@@ -5,7 +5,7 @@ function [btable,ttable] = load5MWDistributed
 Lb = 63;
 
 % Load in distributed parameters
-blade = readtable("Model Files/blade_distributed.txt");
+blade = readtable("C:\Umaine Google Sync\GitHub\SHARK/OpenFAST/5MW_Baseline/StructData/blade_distributed.txt");
 
 % Define radial stations (minus hub)
 blade.Rb = Lb * blade.BlFract;
@@ -48,13 +48,18 @@ blade.EIo = blade.FlpStff .* cosd(blade.StrcTwst) + blade.EdgStff .* sind(blade.
 
 %% ----- Define Tower ----- %%
 % Define constant parameters
-Ht = 77.6;
+Ht = 87.6;
 
 % Read in distributed parameters
-tower = readtable("Model Files/tower_distributed.txt");
+tower = readtable("C:\Umaine Google Sync\GitHub\SHARK/OpenFAST/5MW_Baseline/StructData/tower_distributed.txt");
+tower_aero = readtable("C:\Umaine Google Sync\GitHub\SHARK/OpenFAST/5MW_Baseline/AeroData/tower_aero.txt");
 
 % Define height stations
 tower.Ht = tower.HtFract * Ht;
+
+% Interpolate aerodynamic values along tower height
+tower.TwrDiam = pchip(tower_aero.TwrElev,tower_aero.TwrDiam,tower.Ht);
+tower.Cd = ones(size(tower.Ht));
 
 % Define fundamental mode
 T1_coeffs = [0.4082, -1.5035, 1.8042, -0.8622, 1.1533, 0, 0];
@@ -77,9 +82,3 @@ tower.ddmode1 = polyval(ddT1_coeffs, tower.Ht);
 
 btable = blade;
 ttable = tower;
-
-%% ----- Helper Functions ----- %%
-% function val = innerIntegral(x, ddphi, theta)
-%     idx = dsearchn(blade.Rb, x);
-%     val = trapz(blade.Rb(1:idx), ddphi(1:idx).*cos(theta(1:idx)));
-% end
