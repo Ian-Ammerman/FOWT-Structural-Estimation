@@ -5,10 +5,10 @@ clear all; close all; clc;
 home_dir = 'C:\Umaine Google Sync\GitHub\SHARK';
 
 % Simulation folder for outputs
-sim_folder = 'Turbulent_13mps_Monhegan_NoWave';
+sim_folder = 'Elsevier_LC03';
 
 % OpenFAST Model to Run
-model = '5MW_Baseline_Fixed';
+model = '5MW_OC4Semi_WSt_WavesWN';
 
 % OpenFAST version (name of corresponding folder in 'bin')
 version = 'v3_5_3';

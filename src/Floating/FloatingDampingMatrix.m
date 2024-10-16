@@ -10,7 +10,8 @@ cp = 2 * zp * sqrt(K(1,1) * M(1,1));
 
 % Tower structural damping
 omegat = 1.889 * 2*pi; % tower natural frequency in rads/s
-ct = 2*zt*omegat*M(2,2);
+% ct = 2*zt*omegat*M(2,2);
+ct = ((2*zt)/(omegat)) * K(2,2);
 
 % Blade structural damping
 omegab = 0.75 * 2*pi; % blade flapwise natural frequency in rads/s

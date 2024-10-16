@@ -25,9 +25,9 @@ False         PtfmYDOF    - Platform yaw rotation DOF (flag)
 ---------------------- INITIAL CONDITIONS --------------------------------------
           0   OoPDefl     - Initial out-of-plane blade-tip displacement (meters)
           0   IPDefl      - Initial in-plane blade-tip deflection (meters)
-          5.45   BlPitch(1)  - Blade 1 initial pitch (degrees)
-          5.45   BlPitch(2)  - Blade 2 initial pitch (degrees)
-          5.45   BlPitch(3)  - Blade 3 initial pitch (degrees) [unused for 2 blades]
+          5.42   BlPitch(1)  - Blade 1 initial pitch (degrees)
+          5.42   BlPitch(2)  - Blade 2 initial pitch (degrees)
+          5.42   BlPitch(3)  - Blade 3 initial pitch (degrees) [unused for 2 blades]
           0   TeetDefl    - Initial or fixed teeter angle (degrees) [unused for 3 blades]
           0   Azimuth     - Initial azimuth angle for blade 1 (degrees)
        12.1   RotSpeed    - Initial or fixed rotor speed (rpm)
@@ -118,6 +118,7 @@ True          TabDelim    - Use tab delimiters in text tabular output file? (fla
           3   NBlGages    - Number of blade nodes that have strain gages for output [0 to 9] (-)
           5,          9,         13    BldGagNd    - List of blade nodes that have strain gages [1 to BldNodes] (-) [unused if NBlGages=0]
               OutList     - The next line(s) contains a list of output parameters.  See OutListParameters.xlsx for a listing of available output channels, (-)
+
 "OoPDefl1, IPDefl1, TwstDefl1"    - Blade 1 out-of-plane and in-plane deflections and tip twist
 "BldPitch1"                       - Blade 1 pitch angle
 "Azimuth"                         - Blade 1 azimuth angle

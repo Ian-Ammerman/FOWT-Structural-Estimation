@@ -1,6 +1,6 @@
 % function TurbSimDriver(input_case)
 
-input_case = 'H90m_13mps_Monhegan';
+input_case = 'H90m_22mps_Monhegan';
 
 %% ----- Define Directories ----- %%
 % Fixed

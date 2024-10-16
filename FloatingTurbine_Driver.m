@@ -2,8 +2,7 @@ clear all; close all; clc;
 
 global btable ttable
 
-%% ----- Load in Tower & Blade Information ----- %%
-[btable, ttable] = load5MWOC4SemiDistributed;
+%% ----- Load in Blade Information ----- %%
 blade = readmatrix('OpenFAST\5MW_Baseline\AeroData\NREL_5MW_Blade.csv');
 
 %% ----- Load in OpenFAST Results ----- %%
@@ -17,10 +16,10 @@ blade = readmatrix('OpenFAST\5MW_Baseline\AeroData\NREL_5MW_Blade.csv');
 % load('C:\Umaine Google Sync\Masters Working Folder\1 - OpenFAST\Simulations\5MW_OC4Semi_TrinityDOF\FD_Pitch_NoAero\5MW_OC4Semi_TrinityDOF_FAST_Results.mat');
 
 % Turbulent 13 m/s simulation
-load('OpenFAST\Simulations\5MW_OC4Semi_WSt_WavesWN\Turbulent_13mps_Monhegan_NoWave\5MW_OC4Semi_WSt_WavesWN_FAST_Results.mat');
+% load('OpenFAST\Simulations\5MW_OC4Semi_WSt_WavesWN\Turbulent_13mps_Monhegan_NoWave\5MW_OC4Semi_WSt_WavesWN_FAST_Results.mat');
 
 % Turbulent 13 m/s simulation w/ Waves
-% load('OpenFAST\Simulations\5MW_OC4Semi_WSt_WavesWN\Turbulent_13mps_Monhegan_Hs3d2_Tp12\5MW_OC4Semi_WSt_WavesWN_FAST_Results.mat');
+load('OpenFAST\Simulations\5MW_OC4Semi_WSt_WavesWN\Turbulent_13mps_Monhegan_Hs3d2_Tp12\5MW_OC4Semi_WSt_WavesWN_FAST_Results.mat');
 
 rotAz = sim_results.Azimuth;
 
@@ -28,7 +27,6 @@ rotAz = sim_results.Azimuth;
 % Initial conditions
 x0 = zeros(12,1);
 x = x0;
-% x(1) = 0.005;
 
 % Time vector
 dt = 0.01;
@@ -51,16 +49,20 @@ R = 10^-6*eye(2);
 tic
 for i = 1:length(t)
 
-    % Update azimuth measurement
-    F.azimuth = deg2rad(rotAz(i));
-    F.omega = sim_results.RotSpeed(i) * (pi/30);
-    RPM = sim_results.RotSpeed(i);
-    dqb = [x(9),x(10),x(11)];
+    % Environmental
     Uinf = sim_results.Wind1VelX(i);
     HH_wind = Uinf - x(8) - 87.6*x(7);
+
+    % System "measurements"
+    RPM = sim_results.RotSpeed(i);
+    dqb = [x(9),x(10),x(11)];
+    F.azimuth = deg2rad(rotAz(i));
+    F.omega = RPM * (pi/30);
+
+    % Measurements for Kalman Filter
     kf_measurements = [sim_results.QD_P(i);
                        sim_results.QD_TFA1(i)];
-
+    
     % Project wind onto blades
     wind_vector = projectWind(HH_wind, F.azimuth, blade, 90, 0.18);
 
@@ -69,10 +71,8 @@ for i = 1:length(t)
 
     % Get loads
     aero_forces = RT_BEM_Ning_v2(wind_vector,dqb,RPM,blade_pitch);
-    Ftwr_aero = TwrAeroRT(Uinf,x(7),0.18);
+    Ftwr_aero = TwrAeroRT(Uinf,x(8),0.18);
     hydro_forces = RT_Hydro(dt, x, xdot);
-    % hydro_forces.PtfmPitch = -sim_results.HydroMyi(i);
-    % hydro_forces.PtfmPitch = 0;
 
     % Applied forces
     F.forces = zeros(6,1);
