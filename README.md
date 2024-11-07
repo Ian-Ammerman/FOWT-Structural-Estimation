@@ -9,9 +9,9 @@ To ensure SHARK can work correctly, do the following:
 
 # Running TurbSim
 
-To run Turbsim and generate a turbulent wind file, first prepare the corresponding folder under OpenFAST/Turbsim. The folder name must match the input file name. In this folder, prepare the Turbsim input file for Turbsim v2.0. An example is provided for the Gulf of Maine Monhegan test site [CITE]. 
+Due to the size of turbulent wind files, they are not included in the repo and must be generated locally. To run Turbsim and generate a turbulent wind file, first prepare the corresponding folder under OpenFAST/Turbsim. The folder name must match the input file name. In this folder, prepare the Turbsim input file for Turbsim v2.0. Example directories are already included for conditions in the Gulf of Maine [CITE]. 
 
-To run Turbsim and generate a turbulent wind file, do the following:
+The following steps detail how to run Turbsim and generate a turbulent wind file. To run the provided examples, skip to step 3:
 
 1. Create a folder under OpenFAST/Turbsim
 2. Create a Turbsim input file in this folder with the same name.
@@ -21,18 +21,20 @@ To run Turbsim and generate a turbulent wind file, do the following:
 
 # Running OpenFAST
 
-To generate OpenFAST results for comparison, do the following:
+Due to the size of OpenFAST results files, they are not included in the repo and must be generated locally by the user. To generate OpenFAST results for comparison, do the following:
 
 1. Open the "OpenFAST_Driver.m" script and adjust the "home_dir" variable to the current SHARK directory location.
 2. Change "sim_folder" to the desired simulation output name. You do not need to create this folder manually.
 3. Change "model" to the name of the OpenFAST model folder.
-4. Adjust the OpenFAST files in the corresponding model folder to the desired simulation. Minimum outputs required for any simulation are TTDspFA, RootMyb1-3, BldPitch1-3, Wind1VelX, RotSpeed, Azimuth.
+4. Adjust the OpenFAST files in the corresponding model folder to the desired simulation. Minimum outputs required for any simulation are* TTDspFA, RootMyb1-3, BldPitch1-3, Wind1VelX, RotSpeed, Azimuth.
 5. Models build in other versions of OpenFAST are supported. Simply adjust the "version" and "bin_name" variables and place the compiled OpenFAST executables in the corresponding locations.
 6. Run the OpenFAST driver. Select "yeah, sure" to create the new directory, or "OMG, NO" if there is an error in the output folder name.
 
-# Fixed (Land-Based) Turbine Simulation
+*See SHARK_driver.m "sys_measurements" and "states" variables for all required outputs.
 
-To run the fixed wind turbine case, simply run the "FixedTurbine_Driver.m" file. Within this driver file you can adjust the simulation time by adjusting the time vector max value. Note that dt **must** match the OpenFAST output dt.
+# Running SHARK
+
+SHARK simulations are run by the "SHARK_driver.m" script. Most of the user input controls for the simulation are in the "User Inputs" section of the code. See script comments for details. To specify the system model to use, see the next "Initialize Floating System" section. Currently only the NREL 5MW turbine on the OC4 semi-sub platform is included. Future updates will included details on how to add other models.
 
 ## Adjusting the Observer
 To change the measurements used by the observer:
