@@ -35,7 +35,7 @@ cd(home_dir)
 if ~exist(sim_dir,'dir')
     answer = questdlg(sprintf('Simulation directory "%s" not found. Would you like to create it?', sim_folder),...
                               'Simulation Folder Creation', ...
-                              'Yeah, sure', 'OMG NO!', 'Yes');
+                              'Yeah, sure', 'OMG NO!', 'Yeah, sure');
     switch answer
         case 'Yeah, sure'
             mkdir(sim_dir)
@@ -90,4 +90,16 @@ figure
 gca; hold on; box on;
 plot(sim_results.Time, sim_results.BldPitch1)
 title('Blade Pitch Command [deg]')
+xlabel('Time [s]')
+
+figure
+gca; hold on; box on;
+plot(sim_results.Time, sim_results.PtfmPitch)
+title('Platform Pitch Displacement [deg]')
+xlabel('Time [s]')
+
+figure
+gca; hold on; box on;
+plot(sim_results.Time, sim_results.Q_B1F1)
+title('Blade 1 Flapwise Displacement [m]')
 xlabel('Time [s]')

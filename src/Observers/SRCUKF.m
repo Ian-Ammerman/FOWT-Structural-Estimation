@@ -1,4 +1,4 @@
-function xc = SRCUKF(dt, x, RHSFunc, MeasFunc, Q, R, y, varargin)
+function [xc,Sk_out] = SRCUKF(dt, x, RHSFunc, MeasFunc, Q, R, y, varargin)
 
 %% ----- Parse Inputs ----- %%
 p = inputParser;
@@ -108,6 +108,8 @@ Zk = W2 * ((X2 - repmat(xp, [1,2*L])) - K*(Yp - repmat(yp, [1,2*L])));
 % Update cholesky factor
 [Sk, ~] = qr([Zk, K*Srk]);
 
+%% ----- Output Covariance Value ----- %%
+Sk_out = Sk;
 
 %% ----- Helper Functions ----- %%
 function validateFunctionHandle(input)

@@ -57,9 +57,9 @@ True          PtfmYDOF    - Platform yaw rotation DOF (flag)
         1.9   NacCMxn     - Downwind distance from the tower-top to the nacelle CM (meters)
           0   NacCMyn     - Lateral  distance from the tower-top to the nacelle CM (meters)
        1.75   NacCMzn     - Vertical distance from the tower-top to the nacelle CM (meters)
-   -3.09528   NcIMUxn     - Downwind distance from the tower-top to the nacelle IMU (meters)
+          0   NcIMUxn     - Downwind distance from the tower-top to the nacelle IMU (meters)
           0   NcIMUyn     - Lateral  distance from the tower-top to the nacelle IMU (meters)
-    2.23336   NcIMUzn     - Vertical distance from the tower-top to the nacelle IMU (meters)
+          0   NcIMUzn     - Vertical distance from the tower-top to the nacelle IMU (meters)
     1.96256   Twr2Shft    - Vertical distance from the tower-top to the rotor shaft (meters)
        87.6   TowerHt     - Height of tower relative to ground level [onshore], MSL [offshore wind or floating MHK], or seabed [fixed MHK] (meters)
          10   TowerBsHt   - Height of tower base relative to ground level [onshore], MSL [offshore wind or floating MHK], or seabed [fixed MHK] (meters)
@@ -113,11 +113,11 @@ True          TabDelim    - Use tab delimiters in text tabular output file? (fla
 "ES10.3E2"    OutFmt      - Format used for text tabular output (except time).  Resulting field should be 10 characters. (quoted string) (currently unused)
           0   TStart      - Time to begin tabular output (s) (currently unused)
           1   DecFact     - Decimation factor for tabular output {1: output every time step} (-) (currently unused)
-          1   NTwGages    - Number of tower nodes that have strain gages for output [0 to 9] (-)
-         10   TwrGagNd    - List of tower nodes that have strain gages [1 to TwrNodes] (-) [unused if NTwGages=0]
-          1   NBlGages    - Number of blade nodes that have strain gages for output [0 to 9] (-)
-          9   BldGagNd    - List of blade nodes that have strain gages [1 to BldNodes] (-) [unused if NBlGages=0]
-              OutList     - The next line(s) contains a list of output parameters.  See OutListParameters.xlsx for a listing of available output channels, (-)
+          9   NTwGages    - Number of tower nodes that have strain gages for output [0 to 9] (-)
+          2,4,6,8,10,12,14,16,18   TwrGagNd    - List of tower nodes that have strain gages [1 to TwrNodes] (-) [unused if NTwGages=0]
+          9   NBlGages    - Number of blade nodes that have strain gages for output [0 to 9] (-)
+          2,4,6,8,10,12,14,16,17   BldGagNd    - List of blade nodes that have strain gages [1 to BldNodes] (-) [unused if NBlGages=0]
+OutList     - The next line(s) contains a list of output parameters.  See OutListParameters.xlsx for a listing of available output channels, (-)
 "RootMyb1, RootMyb2, RootMyb3"    - Flapwise bending moment at the root for all blades
 "Q_Sg"                - Internal degrees of freedom
 "Q_Sw"                - 
@@ -212,9 +212,18 @@ True          TabDelim    - Use tab delimiters in text tabular output file? (fla
 "TwrBsMxt"                - Side-to-side bending moment at the base of the tower (platform)
 "TwrBsMyt"                - Fore-aft     bending moment at the base of the tower (platform)
 "TwrBsMzt"                - Yaw                  moment at the base of the tower (platform)
-"NcIMUTAxs"               - Nacelle IMU accelerations
-"NcIMUTAys"
-"NcIMUTAzs"
+NcIMUTVxs                 - Nacelle IMU values
+NcIMUTVys
+NcIMUTVzs
+NcIMUTAxs
+NcIMUTAys
+NcIMUTAzs
+NcIMURVxs
+NcIMURVys
+NcIMURVzs
+NcIMURAxs
+NcIMURAys
+NcIMURAzs
 QD2_B1E1
 QD2_B2E1
 QD2_B3E1
@@ -240,5 +249,56 @@ QD2_Hv
 QD2_R
 QD2_P
 QD2_Y
+TwHt1MLyt
+TwHt1MLzt
+TwHt2MLxt
+TwHt2MLyt
+TwHt2MLzt
+TwHt3MLxt
+TwHt3MLyt
+TwHt3MLzt
+TwHt4MLxt
+TwHt4MLyt
+TwHt4MLzt
+TwHt5MLxt
+TwHt5MLyt
+TwHt5MLzt
+TwHt6MLxt
+TwHt6MLyt
+TwHt6MLzt
+TwHt7MLxt
+TwHt7MLyt
+TwHt7MLzt
+TwHt8MLxt
+TwHt8MLyt
+TwHt8MLzt
+TwHt9MLxt
+TwHt9MLyt
+Spn1MLyb1
+Spn1MLzb1
+Spn2MLxb1
+Spn2MLyb1
+Spn2MLzb1
+Spn3MLxb1
+Spn3MLyb1
+Spn3MLzb1
+Spn4MLxb1
+Spn4MLyb1
+Spn4MLzb1
+Spn5MLxb1
+Spn5MLyb1
+Spn5MLzb1
+Spn6MLxb1
+Spn6MLyb1
+Spn6MLzb1
+Spn7MLxb1
+Spn7MLyb1
+Spn7MLzb1
+Spn8MLxb1
+Spn8MLyb1
+Spn8MLzb1
+Spn9MLxb1
+Spn9MLyb1
+
 END of input file (the word "END" must appear in the first 3 columns of this last OutList line)
 ---------------------------------------------------------------------------------------

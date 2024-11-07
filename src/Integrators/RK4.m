@@ -1,4 +1,4 @@
-function [xplus, kbar] = RK4(dt, x, RHSFunc, varargin)
+function [xplus, kbar] = RK4(dt, x, RHSFunc, F)
 
 % xp = RK4(dt, x, RHSFunc) performs 4th order Runge-Kutta integration on
 % the function RHSFunc given the current state x and time step dt, assuming
@@ -24,25 +24,25 @@ function [xplus, kbar] = RK4(dt, x, RHSFunc, varargin)
 % Written By: Ian Ammerman
 % Last Modified: 8/29/24
 
-%% ----- Parse Inputs ----- %%
-p = inputParser;
-
-% Required inputs (time step, state)
-addRequired(p, 'dt')
-addRequired(p, 'x', @isvector)
-addRequired(p, 'RHSFunc', @validateFunctionHandle)
-
-% Optional input (system inputs/forces)
-addOptional(p, 'F', struct(), @validateForcingHandle)
-
-% Parse inputs
-parse(p, dt, x, RHSFunc, varargin{:})
-
-% Store inputs
-dt = p.Results.dt;
-x = p.Results.x;
-RHSFunc = p.Results.RHSFunc;
-F = p.Results.F;
+% %% ----- Parse Inputs ----- %%
+% p = inputParser;
+% 
+% % Required inputs (time step, state)
+% addRequired(p, 'dt')
+% addRequired(p, 'x', @isvector)
+% addRequired(p, 'RHSFunc', @validateFunctionHandle)
+% 
+% % Optional input (system inputs/forces)
+% addOptional(p, 'F', struct(), @validateForcingHandle)
+% 
+% % Parse inputs
+% parse(p, dt, x, RHSFunc, varargin{:})
+% 
+% % Store inputs
+% dt = p.Results.dt;
+% x = p.Results.x;
+% RHSFunc = p.Results.RHSFunc;
+% F = p.Results.F;
 
 %% ----- Do State Update (Runge-Kutta 4th Order Integration) ----- %%
 % Compute factors
