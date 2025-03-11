@@ -1,0 +1,27 @@
+clear all; close all; clc;
+
+%% ----- Load in Data ----- %%
+% Load experimental results
+load('../FOCAL Pitch Estimation/FOCAL_4.2_M02D01T01_AC01_E13W02_R01_Z1_A1.mat');
+[~,idx] = ismember(labels,{'Pitch','Surge'});
+
+basin_time = channels(:,1);
+basin_pitch = channels(:,idx(1));
+basin_surge = channels(:,idx(2));
+
+% Load OpenFAST results
+load('C:\Umaine Google Sync\GitHub\SHARK\OpenFAST\Simulations\FOCAL_C4\Elsevier_LC02\FOCAL_C4_FAST_Results.mat');
+
+fast_time = sim_results.Time;
+fast_pitch = sim_results.PtfmPitch;
+fast_surge = sim_results.PtfmSurge;
+
+%% ----- Plot Comparisons ----- %%
+figure
+gca; hold on; box on;
+plot(basin_time,basin_pitch*(pi/180),'DisplayName','Experiment','LineWidth',1,'Color','Black')
+plot(fast_time,fast_pitch*(pi/180),'DisplayName','OpenFAST','LineWidth',1)
+
+xlabel('Time [s]')
+ylabel('Pitch Angle [rads]')
+title('OpenFAST vs Experime')
