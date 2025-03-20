@@ -18,6 +18,8 @@ function [xplus, kbar] = RK4(dt, x, RHSFunc, F)
 % current state. Can be linear or non-linear but must take the form
 % RHSFunc(x, u) where x is the state and u is the input.
 %
+% Mxddot + Cxdot + Kx = F
+%
 % F (optional) - input terms for the current time step formatted accoring
 % to RHSFunc requirements
 %

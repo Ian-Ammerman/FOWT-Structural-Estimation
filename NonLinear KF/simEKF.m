@@ -9,7 +9,7 @@ load(sprintf('Data/%s/5MW_OC4Semi_WSt_WavesWN_FAST_Results.mat',sim_name));
 dt = mean(diff(sim_results.Time));      % sample time [s]
 Fs = 1/dt;                              % sampling frequency
 g = 9.806;                              % gravitational acceleration
-rt = 90;                            % height from SWL of nacelle accelerometer
+rt = 87.6;                              % height from SWL of nacelle accelerometer
 
 %% ===== Design Kalman Filter ===== %%
 % Tuning weights
@@ -43,7 +43,7 @@ meas_vals = zeros(length(sim_results.Time),size(R,1));
 ttvelstore = zeros(length(sim_results.Time),1);
 
 % Simulate
-for i = 1:size(kf_results,1)/4
+for i = 1:size(kf_results,1)/5
 
     % Get rotor info
     azimuth = sim_results.Azimuth(i)*(pi/180) + [0,2*pi/3,4*pi/3];
@@ -69,7 +69,7 @@ for i = 1:size(kf_results,1)/4
     rotor.RPM = sim_results.RotSpeed(i);
     rotor.dqb = [xc(8),xc(9),xc(10)];
     rotor.blade_pitch = (pi/180)*[sim_results.BldPitch1(i), sim_results.BldPitch2(i), sim_results.BldPitch3(i)];
-    aero_forces = RT_BEM_Ning_v3(wind_vector,rotor);
+    aero_forces = RT_BEM_Ning_v3(wind_vector,rotor); % Could be Aerodyn...
 
     % Inputs
     u = zeros(5,1);

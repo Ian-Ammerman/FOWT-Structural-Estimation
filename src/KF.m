@@ -8,7 +8,13 @@ function xc = KF(dt, x, u, meas, Q, R, sys)
 %
 % Inputs:
 % ----------
-% 
+% dt - time step [s]
+% x  - current state
+% u  - current input (applied forces)
+% meas - vector of measurement signals
+% Q  - state covariance matrix
+% R  - measurement covariance matrix
+% sys - state-space system object
 
 persistent F B C D P Ts dsys init_flag
 

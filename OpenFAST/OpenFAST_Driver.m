@@ -2,16 +2,16 @@
 clear all; close all; clc;
 
 %% ---------- USER INPUTS ---------- %%
-home_dir = 'C:\Umaine Google Sync\Masters Working Folder\1 - OpenFAST';
+home_dir = 'C:\Users\ianam\Documents\GitHub\FOWT-Structural-Estimation\OpenFAST';
 
 % Simulation folder for outputs
-sim_folder = 'TurbSimple_12ms_Monhegan';
+sim_folder = 'TurbSimple_12ms_Monhegan-Example';
 
 % OpenFAST Model to Run
-model = 'IEA-10.0-198-RWT';
+model = '5MW_OC4Semi_WSt_WavesWN';
 
 % OpenFAST version (name of corresponding folder in 'bin')
-version = 'v4_0_2';
+version = 'v3_5_3';
 bin_name = 'openfast_x64.exe';
 
 %% ---------- END USER INPUTS ---------- %%
