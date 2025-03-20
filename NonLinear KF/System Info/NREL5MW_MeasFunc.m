@@ -16,7 +16,7 @@ function y = NREL5MW_MeasFunc(x,u)
 %      0,0,0,1,0,0,0,0,0,0;
 %      0,0,0,0,1,0,0,0,0,0];
 
-% No blade measurements
+% % No blade measurements
 C = [1,0,0,0,0,0,0,0,0,0;
      0,0,0,0,0,1,0,0,0,0;
      0,0,0,0,0,0,1,0,0,0];

@@ -1,40 +1,35 @@
 clear all; close all; clc;
 
-% Load in simulation data
+%% ===== Load in Simulation Data ===== %%
+% Define simulation
 sim_name = 'Elsevier_LC02';
 load(sprintf('Data/%s/5MW_OC4Semi_WSt_WavesWN_FAST_Results.mat',sim_name));
 
+% Simulation parameters
 dt = mean(diff(sim_results.Time));      % sample time [s]
 Fs = 1/dt;                              % sampling frequency
 g = 9.806;                              % gravitational acceleration
 rt = 90;                            % height from SWL of nacelle accelerometer
 
-%% ----- Define Kalman Filter Weights ----- %%
-% q = 10^3;
-% r = 10^-8;
-% 
-% % Q = q*diag([1,10,1,1,1,   0.1,0.1,100,100,100]);
-% % R = r*diag([1,0.001,1]);
-% Q = q*eye(10);
-% % R = r*eye(3);
-% R = r*eye(6);
-
+%% ===== Design Kalman Filter ===== %%
+% Tuning matrix weights
 q = 10^-2;
 r = 10^-0;
 
 Q = q*diag([1,0.1,100,100,100,  1,0.1,0.001,0.001,0.001]);
-% R = r*diag([1,1000,0.001]);
-R = r*diag([1,100,0.001,0.1,0.1,0.1]);
+R = r*diag([1,1000,0.001]);
+% R = r*diag([1,100,0.001,0.1,0.1,0.1]);
 
-sim_results.NcIMUTVxs = highpass(sim_results.NcIMUTVxs,0.2,1/dt,"ImpulseResponse",'iir');
-sim_results.NcIMURVys = lowpass(sim_results.NcIMURVys,0.2,1/dt,'ImpulseResponse','iir');
-
-%% ----- Load System Properties ----- %%
+% Floating system properties
 rotor = loadNREL5MWRotor;
 tower = loadNREL5MWTower;
 floater = loadNREL5MWFloater; 
 
-%% ----- Simulate Kalman Filter ----- %%
+% Pre-process measurement signals
+sim_results.NcIMUTVxs = highpass(sim_results.NcIMUTVxs,0.2,1/dt,"ImpulseResponse",'iir');
+sim_results.NcIMURVys = lowpass(sim_results.NcIMURVys,0.2,1/dt,'ImpulseResponse','iir');
+
+%% ===== Run Simulation ===== %%
 % Initial conditions
 x0 = zeros(10,1);
 xc = x0;
@@ -46,7 +41,6 @@ u = zeros(2,1);
 kf_results = zeros(length(sim_results.Time),length(x0));
 % meas_vals = zeros(length(sim_results.Time),3);
 meas_vals = zeros(length(sim_results.Time),length(diag(R)));
-
 
 % Simulate
 for i = 1:size(kf_results,1)
@@ -62,9 +56,9 @@ for i = 1:size(kf_results,1)
     theta_gyro = sim_results.Q_P(i);
     
     % Combine measurements
-    z = [theta_gyro;dtheta_gyro;ttvel;sim_results.Q_B1F1(i);sim_results.Q_B2F1(i);sim_results.Q_B3F1(i)];
+    % z = [theta_gyro;dtheta_gyro;ttvel;sim_results.Q_B1F1(i);sim_results.Q_B2F1(i);sim_results.Q_B3F1(i)];
     % z = [theta_gyro;dtheta_gyro;ttvel;sim_results.QD_B1F1(i);sim_results.QD_B2F1(i);sim_results.QD_B3F1(i)];
-    % z = [theta_gyro;dtheta_gyro;ttvel];
+    z = [theta_gyro;dtheta_gyro;ttvel];
     meas_vals(i,:) = z';
 
     % Compute blade loads
@@ -99,8 +93,7 @@ for i = 1:size(kf_results,1)
 
 end
 
-
-%%
+%% ===== Process Results ===== %%
 % Save results
 UKF_wFBG = [sim_results.Time,kf_results];
 save('Data/UKF_wFBG_LC02.mat','UKF_wFBG');
@@ -108,23 +101,27 @@ save('Data/UKF_wFBG_LC02.mat','UKF_wFBG');
 % UKF = [sim_results.Time,kf_results];
 % save('Data/UKF_LC02.mat','UKF');
 
-%%
+%% ===== Plot Results ===== %%
 close all;
 
+%%% Platform pitch angle
 figure
 ax = gca; hold on; box on;
 ax = setAxesInfo(ax);
+
 plot(sim_results.Time,kf_results(:,1)*(180/pi),'DisplayName','KF Estimate')
 plot(sim_results.Time,sim_results.PtfmPitch,'DisplayName','Experiment')
+
 legend
+xlabel('Time [s]')
+ylabel('Pitch Angle [deg]')
 title('Platform Pitch Angle')
-% % % exportgraphics(fig,'IMU_Pitch_Validation.pdf','ContentType','vector')
-% 
-% % ----------------------------------
-% 
+
+%%% Tower-Top Displacement
 fig = figure;
 ax = gca; hold on; box on;
 ax = setAxesInfo(ax);
+% xlim([190,240])
 
 plot(sim_results.Time,sim_results.TTDspFA,'DisplayName','OpenFAST','LineWidth',1.5,'Color','Black')
 plot(sim_results.Time,kf_results(:,2),'DisplayName','KF Estimate','LineWidth',1.5,'LineStyle',':')
@@ -133,11 +130,8 @@ legend
 xlabel('Time [s]')
 ylabel('Displacement [m]')
 title('Tower-Top Displacement')
-% 
-% % savefig('Figures/FAST_EKF_TTDspFA.fig')
-% 
-% % ----------------------------------
-% 
+
+%%% Blade 1 Flapwise Displacement
 figure
 gca; hold on; box on;
 
@@ -149,10 +143,7 @@ xlabel('Time [s]')
 ylabel('Displacement [m]')
 title('Blade 1 Flapwise Displacement')
 
-% savefig('Figures/FAST_EKF_B1F1.fig')
-
-% ----------------------------------
-
+%%% Platform Pitch Angular Velocity
 figure
 ax = gca; hold on; box on;
 ax = setAxesInfo(ax);
@@ -164,52 +155,26 @@ legend
 xlabel('Time [s]')
 ylabel('Angular Velocity [rads/s]')
 title('Platform Pitch Velocity')
-% 
-% % savefig('Figures/FAST_EKF_PitchVel.fig')
 
-% ----------------------------------
-
+%%% Tower-Top Linear Velocity (Mode 1)
 figure
 gca; hold on; box on;
 plot(sim_results.Time,kf_results(:,7),'DisplayName','KF Estimate')
 plot(sim_results.Time,sim_results.QD_TFA1,'DisplayName','Experiment')
 legend
+xlabel('Time [s]')
+ylabel('Velocity [m/s]')
 title('Tower-Top Velocity')
 
+%%% Blade 1 Flapwise Velocity (Mode 1)
 figure
 gca; hold on; box on;
 plot(sim_results.Time,kf_results(:,8),'DisplayName','KF Estimate')
-plot(sim_results.Time,gradient(kf_results(:,3),dt),'DisplayName','KF Disp Grad')
 plot(sim_results.Time,sim_results.QD_B1F1,'DisplayName','OpenFAST')
-xlim([50,70])
 legend
+xlabel('Time [s]')
+ylabel('Velocity [m/s]')
 title('Blade 1 Flapwise Velocity')
-% 
-% figure('Position',[344.2,921,1094.4,420])
-% subplot(1,2,1)
-% gca; hold on; box on;
-% plot(t.Time,kf_results(:,2)*(180/pi),'DisplayName','KF Estimate')
-% plot(t.Time,t.Roll,'DisplayName','Experiment')
-% legend
-% title('Platform Roll Angle')
-% 
-% % figure
-% subplot(1,2,2)
-% gca; hold on; box on;
-% plot(t.Time,kf_results(:,4)*(180/pi),'DisplayName','KF Estimate')
-% plot(t.Time,t.RollVel,'DisplayName','Experiment')
-% legend
-% title('Platform Roll Velocity')
-
-% %% ----- Check FFT ----- %%
-% fkf = myFFT(kf_results(:,2),1/dt);
-% fex = myFFT(sim_results.TTDspFA,1/mean(diff(sim_results.Time)));
-% 
-% figure
-% gca; hold on; box on;
-% plot(fkf(:,1),fkf(:,2),'DisplayName','KF')
-% plot(fex(:,1),fex(:,2),'DisplayName','FAST')
-% xlim([0,1])
 
 
 %% ---------- HELPER FUNCTIONS ---------- %%

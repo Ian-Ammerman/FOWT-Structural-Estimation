@@ -1,6 +1,6 @@
 clear all; close all; clc;
 
-%% ===== Load in Dimulation Data ===== %%
+%% ===== Load in Simulation Data ===== %%
 % Define simulation
 sim_name = 'Elsevier_LC02';
 load(sprintf('Data/%s/5MW_OC4Semi_WSt_WavesWN_FAST_Results.mat',sim_name));
@@ -43,7 +43,7 @@ meas_vals = zeros(length(sim_results.Time),size(R,1));
 ttvelstore = zeros(length(sim_results.Time),1);
 
 % Simulate
-for i = 1:size(kf_results,1)
+for i = 1:size(kf_results,1)/4
 
     % Get rotor info
     azimuth = sim_results.Azimuth(i)*(pi/180) + [0,2*pi/3,4*pi/3];
@@ -125,7 +125,7 @@ title('Platform Pitch Angle')
 fig = figure;
 ax = gca; hold on; box on;
 ax = setAxesInfo(ax);
-xlim([190,240])
+% xlim([190,240])
 
 plot(sim_results.Time,sim_results.TTDspFA,'DisplayName','OpenFAST','LineWidth',1.5,'Color','Black')
 plot(sim_results.Time,kf_results(:,2),'DisplayName','KF Estimate','LineWidth',1.5,'LineStyle',':')

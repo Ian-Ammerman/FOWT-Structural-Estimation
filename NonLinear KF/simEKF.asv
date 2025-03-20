@@ -43,7 +43,7 @@ meas_vals = zeros(length(sim_results.Time),size(R,1));
 ttvelstore = zeros(length(sim_results.Time),1);
 
 % Simulate
-for i = 1:size(kf_results,1)
+for i = 1:size(kf_results,1)/4
 
     % Get rotor info
     azimuth = sim_results.Azimuth(i)*(pi/180) + [0,2*pi/3,4*pi/3];
@@ -112,18 +112,20 @@ close all;
 figure
 ax = gca; hold on; box on;
 ax = setAxesInfo(ax);
+
 plot(sim_results.Time,kf_results(:,1)*(180/pi),'DisplayName','KF Estimate')
 plot(sim_results.Time,sim_results.PtfmPitch,'DisplayName','Experiment')
+
 legend
+xlabel('Time [s]')
+ylabel('Pitch Angle [deg]')
 title('Platform Pitch Angle')
-% % exportgraphics(fig,'IMU_Pitch_Validation.pdf','ContentType','vector')
 
-% ----------------------------------
-
+%%% Tower-Top Displacement
 fig = figure;
 ax = gca; hold on; box on;
 ax = setAxesInfo(ax);
-xlim([190,240])
+% xlim([190,240])
 
 plot(sim_results.Time,sim_results.TTDspFA,'DisplayName','OpenFAST','LineWidth',1.5,'Color','Black')
 plot(sim_results.Time,kf_results(:,2),'DisplayName','KF Estimate','LineWidth',1.5,'LineStyle',':')
@@ -133,10 +135,7 @@ xlabel('Time [s]')
 ylabel('Displacement [m]')
 title('Tower-Top Displacement')
 
-% savefig('Figures/FAST_EKF_TTDspFA.fig')
-
-% ----------------------------------
-
+%%% Blade 1 Flapwise Displacement
 figure
 gca; hold on; box on;
 
@@ -148,10 +147,7 @@ xlabel('Time [s]')
 ylabel('Displacement [m]')
 title('Blade 1 Flapwise Displacement')
 
-% savefig('Figures/FAST_EKF_B1F1.fig')
-
-% ----------------------------------
-
+%%% Platform Pitch Angular Velocity
 figure
 ax = gca; hold on; box on;
 ax = setAxesInfo(ax);
@@ -164,22 +160,24 @@ xlabel('Time [s]')
 ylabel('Angular Velocity [rads/s]')
 title('Platform Pitch Velocity')
 
-% savefig('Figures/FAST_EKF_PitchVel.fig')
-
-% ----------------------------------
-
+%%% Tower-Top Linear Velocity (Mode 1)
 figure
 gca; hold on; box on;
 plot(sim_results.Time,kf_results(:,7),'DisplayName','KF Estimate')
 plot(sim_results.Time,sim_results.QD_TFA1,'DisplayName','Experiment')
 legend
+xlabel('Time [s]')
+ylabel('Velocity [m/s]')
 title('Tower-Top Velocity')
 
+%%% Blade 1 Flapwise Velocity (Mode 1)
 figure
 gca; hold on; box on;
 plot(sim_results.Time,kf_results(:,8),'DisplayName','KF Estimate')
 plot(sim_results.Time,sim_results.QD_B1F1,'DisplayName','OpenFAST')
 legend
+xlabel('Time [s]')
+ylabel('Velocity [m/s]')
 title('Blade 1 Flapwise Velocity')
 
 %% ---------- HELPER FUNCTIONS ---------- %%
