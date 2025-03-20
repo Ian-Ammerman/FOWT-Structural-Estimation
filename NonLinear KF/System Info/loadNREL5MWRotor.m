@@ -5,8 +5,8 @@ function Rotor = loadNREL5MWRotor
 Lb = 63;
 
 % Load in distributed parameters
-blade_aero = readmatrix('C:\Umaine Google Sync\Masters Working Folder\1 - OpenFAST\Models\5MW_Baseline\AeroData\NREL_5MW_Blade.csv');
-blade = readtable("C:\Umaine Google Sync\Masters Working Folder\1 - OpenFAST\Models\5MW_Baseline\StructData\blade_distributed.txt");
+blade_aero = readmatrix('..\OpenFAST\Models\5MW_Baseline\AeroData\NREL_5MW_Blade.csv');
+blade = readtable("..\OpenFAST\Models\5MW_Baseline\StructData\blade_distributed.txt");
 
 % Define radial stations (minus hub)
 blade.Rb = Lb * blade.BlFract;
@@ -43,9 +43,9 @@ blade.EIo = blade.FlpStff .* cosd(blade.StrcTwst) + blade.EdgStff .* sind(blade.
 Rotor.RH = 1.5;                         % hub radius [m]
 Rotor.R = max(blade.Rb);                % blade radius [m]
 Rotor.B = 3;                            % number of blades
-Rotor.CLTable = readmatrix('C:\Umaine Google Sync\Masters Working Folder\1 - OpenFAST\Models\5MW_Baseline\AeroData\NREL_5MW_Airfoil_CL_Lookup.csv');
-Rotor.CDTable = readmatrix('C:\Umaine Google Sync\Masters Working Folder\1 - OpenFAST\Models\5MW_Baseline\AeroData\NREL_5MW_Airfoil_CD_Lookup.csv');
-Rotor.AlphaTable = readmatrix('C:\Umaine Google Sync\Masters Working Folder\1 - OpenFAST\Models\5MW_Baseline\AeroData\NREL_5MW_Airfoil_Alpha_Lookup.csv');
+Rotor.CLTable = readmatrix('..\OpenFAST\Models\5MW_Baseline\AeroData\NREL_5MW_Airfoil_CL_Lookup.csv');
+Rotor.CDTable = readmatrix('..\OpenFAST\Models\5MW_Baseline\AeroData\NREL_5MW_Airfoil_CD_Lookup.csv');
+Rotor.AlphaTable = readmatrix('..\OpenFAST\Models\5MW_Baseline\AeroData\NREL_5MW_Airfoil_Alpha_Lookup.csv');
 
 
 

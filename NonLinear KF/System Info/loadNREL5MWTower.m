@@ -6,8 +6,8 @@ Ht = 87.6;
 
 
 % Read in distributed parameters
-tower = readtable("C:\Umaine Google Sync\Masters Working Folder\1 - OpenFAST\Models/5MW_Baseline/StructData/OC4Semi_Tower_Distributed.txt");
-tower_aero = readtable("C:\Umaine Google Sync\Masters Working Folder\1 - OpenFAST\Models/5MW_Baseline/AeroData/tower_aero.txt");
+tower = readtable("..\OpenFAST\Models/5MW_Baseline/StructData/OC4Semi_Tower_Distributed.txt");
+tower_aero = readtable("..\OpenFAST\Models/5MW_Baseline/AeroData/tower_aero.txt");
 
 % Define height stations
 tower.Ht = tower.HtFract * Ht;
